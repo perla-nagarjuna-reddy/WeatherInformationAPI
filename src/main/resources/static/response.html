@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Information Service</title>
+</head>
+<body>
+    <h1>Weather Information Service</h1>
+    <form>
+        <label for="location">Enter city or location:</label>
+        <input type="text" id="location" name="location">
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather-data">
+        <!-- weather data will be displayed here -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script>
+        const form = document.querySelector('form');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const location = document.querySelector('#location').value;
+            const response = await axios.get(`/weather?location=${location}`);
+            const weatherData = response.data;
+            const weatherHtml = `
+                <p>Location: ${weatherData.location}</p>
+                <p>Weather Description: ${weatherData.weatherDescription}</p>
+                <p>Temperature: ${weatherData.temperature}°C</p>
+                <p>Humidity: ${weatherData.humidity}%</p>
+                <p>Wind Speed: ${weatherData.windSpeed} km/h</p>
+            `;
+            document.querySelector('#weather-data').innerHTML = weatherHtml;
+        });
+    </script>
+</body>
+</html>
